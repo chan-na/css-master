@@ -32,6 +32,18 @@
 - align이 붙은것을 보면 알수 있듯이 cross-axis에 적용된다.
 - 특적 flex-item에만 align-items를 적용하고 싶을때 사용한다.
 
+```
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+.one-of-flex-items {
+    align-self: flex-start;
+}
+```
+
 ## grid
 
 ### grid-container와 grid-item
@@ -99,7 +111,7 @@
     grid-template-area: "header header header"
                         "content content sidebar"
                         "content content sidebar"
-                        "footer footer footer"
+                        "footer footer footer";
 }
 .grid-element-first {
     grid-area: header;
@@ -112,5 +124,42 @@
 }
 .grid-element-fourth {
     grid-area: footer;
+}
+```
+
+### fr Unit
+
+- grid에서 길이를 표시하는 새로운 방법. (px, % 등으로 길이를 표시했었음.)
+- fr은 fraction의 약자로 비율을 뜻한다.
+- 반응형 디자인을 할 때 자동으로 비율에 맞춰 크기를 계산해 주기 때문에 편리하다.
+
+### repeat
+
+- template을 정의할때 여러번 써야할 수고를 덜어준다.
+- repeat(횟수, 길이)로 표현한다.
+
+```
+.grid-container {
+    display: grid;
+    grid-auto-rows: 200px;
+    grid-template-columns: repeat(3, 1fr) 3fr;  // 1fr 1fr 1fr 3fr 과 동일하다.
+}
+```
+
+### minmax
+
+- 길이를 표시하는 방법중에 하나이다.
+- minmax(최소로 가져야 하는 크기, 최대로 가질수 있는 크기);
+- fr과 함께 사용하면 쉽게 반응형 디자인을 할 수 있다.
+
+```
+.grid-container {
+    display: grid;
+    grid-auto-rows: 200px;
+    grid-template-columns: repeat(3, 1fr) minmax(200px, 1fr);
+    // 처음에는 4개의 element가 각각 같은비율(1fr)로 width를 차지하고 있다.
+    // 브라우저의 width를 줄이는 중에 각 element의 width가 200px이 된 이후에
+    // 브라우저 width를 계속 줄이면 마지막 element는 width가 200px로 고정되고(최소 200px크기를 가져야하므로),
+    // 다른 element들은 남는 width를 같은비율(1fr)로 나누어서 width를 가지게 된다.
 }
 ```
