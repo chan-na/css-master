@@ -170,7 +170,7 @@
 - 길이를 표시하는 방법중 하나이다.
 - 해당하는 grid-item 안에 들어있는 content에 따라 다른 디자인이 적용된다.
 - max-content의 경우, grid-item안에 들어있는 content에 따라서, 차지할수있는 최대의 크기를 차지한다.
-- min-contnet의 경우, grid-item안에 들어있는 content에 따라서, 최소한의 크기만을 차지한다.
+- min-content의 경우, grid-item안에 들어있는 content에 따라서, 최소한의 크기만을 차지한다.
 
 ```
 .grid-container {
@@ -208,7 +208,7 @@
 
 - justify는 horizontal, align은 vertical, place는 두개를 한꺼번에 표현하는데 차례대로 vertical horizontal순서.
 - content는 grid-container자체를 움직인다. grid-container가 차지하고 있는 영역(블록)이 있을텐데, 그 영역안에서 grid-container가 어디에 위치할지를 지정한다.
-- items는 grid 레이아웃 안에서, grid-item의 위치를 지정한다.
+- items는 grid 레이아웃 안의 각 셀에서, 셀안의 content(grid-item안의 content)의 위치를 지정한다.
 
 ```
 .grid-container {
@@ -224,3 +224,63 @@
     // 2x2 레이아웃안의 각 셀에서, 셀안의 content(grid-item안의 content)는 수평, 수직으로 셀의 중앙에 위치한다.
 }
 ```
+
+### justify-self, align-self, place-self
+
+- 특정 셀에만 justify-items, align-items를 적용하고 싶을때 사용한다.
+- 적용하는 값들은 justify-items, align-items와 같다.
+- place-self: aling-self justify-self 순서이다.
+
+```
+.grid-item-first {
+    justify-self: end;
+    align-self: center;
+    //place-self: center end; 와 같다.
+}
+```
+
+### grid-row, grid-row-start, grid-row-end | grid-column, grid-column-start, grid-column-end | grid-area
+
+![grid-basic](https://webkit.org/wp-content/uploads/grid-concepts.svg)
+
+- grid-item에 정의해주는 속성들이다. grid-container에는 레이아웃(템플릿)이 미리 정의되어있다고 가정한다.
+- start, end는 grid-item이 레이아웃의 몇번째 line부터 몇번째 line 까지 차지할지를 나타낸다. 라인의 숫자는 1부터 시작하여 증가한다. 위의 그림을 보면 정확히 알 수 있다.
+- grid-row와 grid-column은 단축된 표현으로서 **grid-row-start : 2; grid-row-end : 4;** 를 **grid-row : 2 / 4;** 로 줄여쓸 수 있다.
+- 마지막 라인쪽에서는 -1부터 시작하여 감소하는 방식으로 라인을 셀 수 있다. grid-column : 1 -1; 로 하면 첫째 라인부터 마지막 라인까지 한줄 전체를 차지한다.
+- 몇칸을 차지할지를 명시해주는 방식도 있다. grid-row: span 2; 는 해당 grid-item의 시작부터 2칸을 차지하게 된다. grid-row: 2 / span 2; 는 2번째 라인부터 2칸을 차지하게 된다.
+- grid-area 속성을 사용하면 한번에 row-start / column-start / row-end / column-end 를 표현 할 수 있다.
+
+```
+.grid-item-first {
+    grid-row-start: 2;
+    grid-row-end: 5;
+    grid-column: 3 / -1;
+}
+grid-item-second {
+    grid-row: span 3;
+    grid-column: 2 / span 2;
+}
+grid-item-thire {
+    grid-area: 2 / 1 / 4 / -1;
+}
+```
+
+### Line naming
+
+- 레이아웃이 방대해 진다면 라인을 숫자로 표현하기 어려울 수 있다. 하나하나 세어가면서 몇번째 라인인지 확인해야하기 때문이다.
+- 각 라인에 이름을 붙여주는 방식으로 해결 할 수 있다.
+- 이름은 공백이 있으면 안된다.
+
+```
+.grid-container {
+    display: grid;
+    grid-auto-row: 100px;
+    grid-template-columns: [first] 400px [main] 200px [side] 100px [last];
+}
+.grid-item-first {
+    grid-row: first side;
+    grid-column: span 3;
+}
+```
+
+![grid-line-naming](https://webkit.org/wp-content/uploads/grid-definition.svg)
