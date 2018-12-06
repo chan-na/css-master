@@ -278,8 +278,8 @@ grid-item-thire {
     grid-template-columns: [first] 400px [main] 200px [side] 100px [last];
 }
 .grid-item-first {
-    grid-row: first side;
-    grid-column: span 3;
+    grid-column: first side;
+    grid-row: span 2;
 }
 ```
 
